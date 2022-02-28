@@ -1,49 +1,19 @@
-import os, json
-
-awx_base_url = "https://awx.testing.net"
-inventory_name = "VCenter - Stage"
-
-
-##APIs
-callersapi_build_number = 131
-respondersapi_build_number = 1316
-maxapi_build_number = 131605
-
-koss_build_number = 1317
-koss_deploy_frontend = true
-koss_deploy_backend = true
-koss_deploy_cronjob = false
 
 
 
+raw_f = open("m/test.txt",'r',encoding = 'utf-8')
+f = str(raw_f.read())
 
-to_deploy_dict = [
-    {
-        'name': 'callerAPI and Redis',
-        'cmd': f"awx workflow_job_templates launch --inventory '{inventory_name}' --extra_vars '{{ build_number: {callersapi_build_number} }}' 40",
-    },
-    {
-        'name': 'respondersAPI and Redis',
-        'cmd': f"awx workflow_job_templates launch --inventory '{inventory_name}' --extra_vars '{{ build_number: {respondersapi_build_number} }}' 19",
-    },
-    {
-        'name': 'maxAPI and Redis',
-        'cmd': f"awx workflow_job_templates launch --inventory '{inventory_name}' --extra_vars '{{ build_number: {maxapi_build_number} }}' 11",
-    },
-    {
-        "name": "koss",
-        "cmd": f"awx job_templates launch --inventory '{inventory_name}' --extra_vars '{{ koss_build_number: {koss_build_number} , deploy_backend: {koss_deploy_backend}, deploy_frontend: {koss_deploy_frontend}, deploy_cronjob: {koss_deploy_cronjob} }}' 1043",
-    },
-]
+f = f.strip().replace('\"', '\\"').replace("\'", "\\'").split("\n")
+a = []
+for i in f:
+    a.append(str(i) + "\\n")
 
-#######################################################################
-##  RUN: Iterate through dict and deploy each item.
-##  Output will be:
-##      Executing: <command line>
-##      <item name>: <url to job log>
-#######################################################################
-for item in to_deploy_dict:
-    print("Executing: " + item["cmd"])
-    jobid = json.loads(os.popen(item["cmd"]).read())["job"]
-    joburl = f"{awx_base_url}/#/jobs/playbook/{jobid}/output"
-    print(f"{item['name']}: {joburl}")
+n = ""
+for i in a:
+    n = n+i
+
+
+print(n)
+with open('m/output.py', 'w') as f:
+    f.write(f"exec(\"{n}\")")
