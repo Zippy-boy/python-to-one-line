@@ -1,1 +1,0 @@
-exec("raw_f = open(\"m/test.txt\",\'r\',encoding = \'utf-8\')\nf = str(raw_f.read())\n\nf = f.strip().replace(\'\\\"\', \'\\\\\"\').replace(\"\\\'\", \"\\\\\'\").split(\"\\n\")\na = []\nfor i in f:\n\\ta.append(str(i) + \"\\\\n\")\n\nn = \"\"\nfor i in a:\n\\tn = n+i\n\n\nprint(n)\nwith open(\'m/output.py\', \'w\') as f:\n\\tf.write(f\"exec(\\\"{n}\\\")\")\n")
