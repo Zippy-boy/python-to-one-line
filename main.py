@@ -1,6 +1,21 @@
 import os
 import argparse
 from pathlib import Path
+
+def format_box(title, body, width=80):
+    box_line = lambda text: "*  " + text + (" " * (width - 6 - len(text))) + "  *"
+
+    print("*" * width)
+    print(box_line(title))
+    print("*" * width)
+    print(box_line(""))
+
+    for line in body.split("\n"):
+        print(box_line(line.expandtabs()))
+
+    print(box_line(""))
+    print("*" * width)
+
 parser = argparse.ArgumentParser()
 
 parser.add_argument('first', type=str, help="Full path to file")
@@ -22,22 +37,28 @@ output_path = args.output
 output_path_none = args.first
 
 o = output_path_none.split("\\")
-print(o)
 o.pop()
 output_path_none = ""
 for i in o:
     output_path_none = output_path_none+i+"\\"
-print(output_path_none)
-
-
-
-#print(n)
 
 if output_path == None:
+    print(output_path_none)
     with open(output_path_none + "output.py", 'w') as f:
-        f.write(f"exec(\"{n}\")")
+            f.write(f"exec(\"{n}\")")
+            format_box(
+                "\tOne -- Line",
+
+                "\tOutPut File --->\n\n"
+                f"{output_path_none}\\output.py"
+            );
 
 else:
     with open(f"{output_path}\\output.py", 'w') as f:
         f.write(f"exec(\"{n}\")")
-    print("hi")
+        format_box(
+            "\tOne -- Line",
+
+            "\tOutPut File --->\n\n"
+            f"{output_path}\\output.py"
+        );
