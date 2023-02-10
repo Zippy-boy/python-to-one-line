@@ -1,6 +1,5 @@
 import argparse
 
-
 def format_box(title, body, width=80):
     box_line = lambda text: "*  " + text + (" " * (width - 6 - len(text))) + "  *"
 
